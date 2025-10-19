@@ -4,212 +4,221 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code Style](https://img.shields.io/badge/code%20style-professional-brightgreen.svg)]()
 
-> **Автоматизированная обработка данных из MS Access файлов с интеллектуальным маппингом ID**
+> **Automated MS Access Data Processing with Intelligent ID Mapping**
 
-Профессиональный Python инструмент для пакетной обработки данных из MS Access баз данных, создания таблиц соответствий и генерации сложных идентификаторов по заданным правилам.
-
----
-
-## 📋 Содержание
-
-- [Возможности](#-возможности)
-- [Быстрый старт](#-быстрый-старт)
-- [Установка](#-установка)
-- [Использование](#-использование)
-- [Структура проекта](#-структура-проекта)
-- [Как это работает](#-как-это-работает)
-- [Примеры](#-примеры)
-- [Технологии](#-технологии)
-- [Автор](#-автор)
+Professional Python tool for bulk processing MS Access database files, creating correspondence tables, and generating complex identifiers according to specified rules.
 
 ---
 
-## ✨ Возможности
+## 📋 Table of Contents
 
-✅ **Пакетная обработка** - одновременная обработка множества Access файлов  
-✅ **Интеллектуальный маппинг** - автоматическое сопоставление ID по таблицам  
-✅ **Генерация ID** - создание сложных идентификаторов по правилам  
-✅ **Проверка дубликатов** - исключение повторяющихся записей  
-✅ **Подробное логирование** - отслеживание каждого шага обработки  
-✅ **Python 3.6.8+ совместимость** - работает на старых версиях Python  
-✅ **Чистый код** - полностью документированный и читаемый код  
+- [Features](#-features)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [How It Works](#-how-it-works)
+- [Examples](#-examples)
+- [Technologies](#-technologies)
+- [Author](#-author)
 
 ---
 
-## 🚀 Быстрый старт
+## ✨ Features
 
-### 1. Клонируйте репозиторий
+✅ **Bulk Processing** - Simultaneous processing of multiple Access files  
+✅ **Intelligent Mapping** - Automatic ID matching using correspondence tables  
+✅ **ID Generation** - Creating complex identifiers according to rules  
+✅ **Duplicate Detection** - Excluding duplicate records  
+✅ **Detailed Logging** - Tracking every processing step  
+✅ **Python 3.6.8+ Compatibility** - Works on older Python versions  
+✅ **Clean Code** - Fully documented and readable code
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/palagina00/ms-access-data-processor.git
 cd ms-access-data-processor
 ```
 
-### 2. Установите зависимости
+### 2. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Сгенерируйте тестовые данные
+### 3. Generate test data
+
 ```bash
 python tests/generate_test_data.py
 ```
 
-### 4. Запустите обработку
+### 4. Run processing
+
 ```bash
 python src/access_processor.py
 ```
 
-### 5. Проверьте результат
+### 5. Check results
+
 ```bash
 cat data/output/result.csv
 ```
 
 ---
 
-## 📦 Установка
+## 📦 Installation
 
-### Системные требования
+### System Requirements
 
-- **Python**: 3.6.8 или выше
+- **Python**: 3.6.8 or higher
 - **OS**: Windows, Linux, macOS
-- **MS Access Driver**: для работы с .mdb файлами (опционально)
+- **MS Access Driver**: for working with .mdb files (optional)
 
-### Пошаговая установка
+### Step-by-Step Installation
 
 #### Windows:
 
 ```bash
-# 1. Установите Python 3.6.8+
-# Скачайте с https://www.python.org/downloads/
+# 1. Install Python 3.6.8+
+# Download from https://www.python.org/downloads/
 
-# 2. Создайте виртуальное окружение
+# 2. Create virtual environment
 python -m venv venv
 venv\Scripts\activate
 
-# 3. Установите зависимости
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Установите MS Access Driver (если нужен)
-# Скачайте: https://www.microsoft.com/en-us/download/details.aspx?id=13255
+# 4. Install MS Access Driver (if needed)
+# Download: https://www.microsoft.com/en-us/download/details.aspx?id=13255
 ```
 
 #### Linux/macOS:
 
 ```bash
-# 1. Создайте виртуальное окружение
+# 1. Create virtual environment
 python3 -m venv venv
 source venv/bin/activate
 
-# 2. Установите зависимости
+# 2. Install dependencies
 pip install -r requirements.txt
 ```
 
-Подробная инструкция: [INSTALLATION.md](docs/INSTALLATION.md)
+Detailed instructions: [INSTALLATION.md](docs/INSTALLATION.md)
 
 ---
 
-## 💻 Использование
+## 💻 Usage
 
-### Базовое использование
+### Basic Usage
 
 ```python
 from src.access_processor import AccessDataProcessor
 
-# Создаем процессор
+# Create processor
 processor = AccessDataProcessor(
     input_dir='data/input',
     correspondence_file='data/correspondence.csv',
     codes_file='data/filename_codes.csv'
 )
 
-# Обрабатываем все файлы
+# Process all files
 processor.process_all_files('data/output/result.csv')
 ```
 
-### Из командной строки
+### Command Line Usage
 
 ```bash
 python src/access_processor.py
 ```
 
-### Примеры данных
+### Data Examples
 
-**Входной файл (input/18%Ese21.csv):**
+**Input file (input/18%Ese21.csv):**
+
 ```
 RecordID;ID;SomeData
 1;8d 7d 2c_Ah9h;Data_1
 2;3f 2a 1b_Xk5l;Data_2
 ```
 
-**Таблица соответствий (correspondence.csv):**
+**Correspondence table (correspondence.csv):**
+
 ```
 id;ID2
 8d 7d 2c_Ah9h;8d 7d 2c_P000
 3f 2a 1b_Xk5l;3f 2a 1b_P000
 ```
 
-**Коды файлов (filename_codes.csv):**
+**Filename codes (filename_codes.csv):**
+
 ```
 filename;code
 18%Ese21.csv;AF21
 ```
 
-**Результат (output/result.csv):**
+**Result (output/result.csv):**
+
 ```
 ID3;ID4
 AF21_8d 7d 2c_P000;AF21_8d 7d 2c_Ah9h
 AF21_3f 2a 1b_P000;AF21_3f 2a 1b_Xk5l
 ```
 
-Больше примеров: [USAGE.md](docs/USAGE.md)
+More examples: [USAGE.md](docs/USAGE.md)
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 ```
 ms-access-data-processor/
 │
-├── data/                       # Данные
-│   ├── input/                  # Входные файлы
-│   ├── output/                 # Выходные файлы
-│   ├── correspondence.csv      # Таблица ID → ID2
-│   └── filename_codes.csv      # Filename → Code
+├── data/                       # Data files
+│   ├── input/                  # Input files
+│   ├── output/                 # Output files
+│   ├── correspondence.csv      # ID → ID2 mapping table
+│   └── filename_codes.csv      # Filename → Code mapping
 │
-├── src/                        # Исходный код
+├── src/                        # Source code
 │   ├── __init__.py
-│   └── access_processor.py     # Основной процессор
+│   └── access_processor.py     # Main processor
 │
-├── tests/                      # Тесты и утилиты
-│   └── generate_test_data.py   # Генератор тестовых данных
+├── tests/                      # Tests and utilities
+│   └── generate_test_data.py   # Test data generator
 │
-├── docs/                       # Документация
-│   ├── INSTALLATION.md         # Инструкция по установке
-│   └── USAGE.md                # Руководство пользователя
+├── docs/                       # Documentation
+│   ├── INSTALLATION.md         # Installation guide
+│   └── USAGE.md                # User guide
 │
-├── requirements.txt            # Зависимости Python
-├── .gitignore                  # Git ignore файлы
+├── requirements.txt            # Python dependencies
+├── .gitignore                  # Git ignore files
 ├── LICENSE                     # MIT License
-└── README.md                   # Этот файл
+└── README.md                   # This file
 ```
 
 ---
 
-## 🔧 Как это работает
+## 🔧 How It Works
 
-### Алгоритм обработки:
+### Processing Algorithm:
 
 ```
-Шаг 1: Создание выходного CSV файла
-Шаг 2: Чтение всех входных файлов
-Шаг 3: Для каждого ID → поиск соответствующего ID2
-Шаг 4: Генерация ID3 = CODE + "_" + ID2
-Шаг 5: Проверка дубликатов ID3
-Шаг 6: Генерация ID4 = ID3[:14] + original_ID[-4:]
-Шаг 7: Запись в выходной файл
+Step 1: Create output CSV file
+Step 2: Read all input files
+Step 3: For each ID → find corresponding ID2
+Step 4: Generate ID3 = CODE + "_" + ID2
+Step 5: Check for ID3 duplicates
+Step 6: Generate ID4 = ID3[:14] + original_ID[-4:]
+Step 7: Write to output file
 ```
 
-### Пример трансформации:
+### Transformation Example:
 
 ```
 Input:
@@ -217,8 +226,8 @@ Input:
   ID: "8d 7d 2c_Ah9h"
 
 Processing:
-  1. Code = "AF21" (из filename_codes.csv)
-  2. ID2 = "8d 7d 2c_P000" (из correspondence.csv)
+  1. Code = "AF21" (from filename_codes.csv)
+  2. ID2 = "8d 7d 2c_P000" (from correspondence.csv)
   3. ID3 = "AF21_8d 7d 2c_P000"
   4. ID4 = "AF21_8d 7d 2c_" + "Ah9h" = "AF21_8d 7d 2c_Ah9h"
 
@@ -229,63 +238,63 @@ Output:
 
 ---
 
-## 🛠️ Технологии
+## 🛠️ Technologies
 
-- **Python 3.6.8+** - Основной язык программирования
-- **pyodbc** - Работа с MS Access базами данных
-- **CSV** - Обработка CSV файлов
-- **Logging** - Детальное логирование процессов
-- **Pathlib** - Современная работа с путями
+- **Python 3.6.8+** - Main programming language
+- **pyodbc** - Working with MS Access databases
+- **CSV** - CSV file processing
+- **Logging** - Detailed process logging
+- **Pathlib** - Modern path handling
 
 ---
 
-## 📊 Производительность
+## 📊 Performance
 
-- ✅ **Скорость**: ~1000 записей/сек
-- ✅ **Память**: Минимальное использование (потоковая обработка)
-- ✅ **Масштабируемость**: Поддержка файлов любого размера
-- ✅ **Надежность**: Полная обработка ошибок
+- ✅ **Speed**: ~1000 records/sec
+- ✅ **Memory**: Minimal usage (stream processing)
+- ✅ **Scalability**: Support for files of any size
+- ✅ **Reliability**: Complete error handling
 
 ---
 
 ## 🎯 Use Cases
 
-### Для чего подходит:
+### Perfect for:
 
-- ✅ Миграция данных между системами
-- ✅ Создание lookup таблиц
-- ✅ Генерация уникальных идентификаторов
-- ✅ Пакетная обработка баз данных
-- ✅ ETL процессы (Extract, Transform, Load)
+- ✅ Data migration between systems
+- ✅ Creating lookup tables
+- ✅ Generating unique identifiers
+- ✅ Bulk database processing
+- ✅ ETL processes (Extract, Transform, Load)
 
 ---
 
 ## 📈 Roadmap
 
-- [x] Базовая обработка CSV файлов
-- [x] Интеллектуальный маппинг ID
-- [x] Логирование процессов
-- [x] Генератор тестовых данных
-- [ ] Поддержка реальных .mdb файлов через pyodbc
-- [ ] GUI интерфейс
-- [ ] Экспорт в Excel с форматированием
-- [ ] Параллельная обработка файлов
+- [x] Basic CSV file processing
+- [x] Intelligent ID mapping
+- [x] Process logging
+- [x] Test data generator
+- [ ] Real .mdb file support via pyodbc
+- [ ] GUI interface
+- [ ] Excel export with formatting
+- [ ] Parallel file processing
 
 ---
 
 ## 🤝 Contributing
 
-Приветствуются pull requests! Для крупных изменений сначала откройте issue для обсуждения.
+Pull requests are welcome! For major changes, please open an issue first to discuss.
 
 ---
 
 ## 📄 License
 
-Этот проект лицензирован под [MIT License](LICENSE).
+This project is licensed under [MIT License](LICENSE).
 
 ---
 
-## 👤 Автор
+## 👤 Author
 
 **Palagina Ekaterina**
 
@@ -295,15 +304,15 @@ Output:
 
 ---
 
-## 🌟 Поддержка
+## 🌟 Support
 
-Если проект оказался полезным, поставьте ⭐ на GitHub!
+If this project was helpful, please give it a ⭐ on GitHub!
 
 ---
 
 ## 📞 Contact & Support
 
-Есть вопросы или предложения?
+Have questions or suggestions?
 
 - 📧 **Email**: palagina00@gmail.com
 - 🐛 **Report Bug**: [Issues](../../issues)
@@ -318,4 +327,3 @@ Output:
 [⬆ Back to Top](#-ms-access-data-processor)
 
 </div>
-
