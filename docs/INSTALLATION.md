@@ -1,376 +1,326 @@
-# 📦 Руководство по установке MS Access Data Processor
+# 📦 Installation Guide for MS Access Data Processor
 
-Подробная пошаговая инструкция по установке и настройке проекта на различных операционных системах.
-
----
-
-## 📋 Содержание
-
-- [Системные требования](#системные-требования)
-- [Установка Python](#установка-python)
-- [Установка проекта](#установка-проекта)
-- [Установка MS Access Driver](#установка-ms-access-driver)
-- [Проверка установки](#проверка-установки)
-- [Решение проблем](#решение-проблем)
+Detailed step-by-step installation and setup instructions for the project on different operating systems.
 
 ---
 
-## 💻 Системные требования
+## 📋 Table of Contents
 
-### Минимальные требования:
+- [System Requirements](#system-requirements)
+- [Python Installation](#python-installation)
+- [Project Installation](#project-installation)
+- [MS Access Driver Installation](#ms-access-driver-installation)
+- [Installation Verification](#installation-verification)
+- [Troubleshooting](#troubleshooting)
 
-- **Python**: 3.6.8 или выше (рекомендуется 3.8+)
-- **RAM**: 512 MB (рекомендуется 2 GB)
+---
+
+## 💻 System Requirements
+
+### Minimum Requirements:
+
+- **Python**: 3.6.8 or higher (recommended 3.8+)
+- **RAM**: 512 MB (recommended 2 GB)
 - **Disk Space**: 100 MB
 - **OS**: Windows 7+, Ubuntu 18.04+, macOS 10.14+
 
-### Дополнительно (опционально):
+### Additional (Optional):
 
-- **MS Access Driver** - для работы с реальными .mdb файлами
-- **Git** - для клонирования репозитория
+- **MS Access Driver** - for working with real .mdb files
+- **Git** - for cloning repository
 
 ---
 
-## 🐍 Установка Python
+## 🐍 Python Installation
 
 ### Windows:
 
-#### Вариант 1: Официальный установщик (Рекомендуется)
+#### Method 1: Official Installer (Recommended)
 
-1. **Скачайте Python**:
-   - Перейдите на [python.org/downloads](https://www.python.org/downloads/)
-   - Скачайте Python 3.8+ (или минимум 3.6.8)
+1. **Download Python**:
+   - Go to [https://www.python.org/downloads/](https://www.python.org/downloads/)
+   - Download Python 3.8+ (latest stable version)
+   - Choose "Windows installer (64-bit)"
 
-2. **Запустите установщик**:
-   ```
-   ⚠️ ВАЖНО: Поставьте галочку "Add Python to PATH"
-   ```
+2. **Install Python**:
+   - Run the downloaded installer
+   - **IMPORTANT**: Check "Add Python to PATH" checkbox
+   - Choose "Install Now" or "Customize installation"
+   - Complete the installation
 
-3. **Проверьте установку**:
-   ```bash
+3. **Verify Installation**:
+   ```cmd
    python --version
+   pip --version
    ```
-   Должно показать: `Python 3.x.x`
 
-#### Вариант 2: Microsoft Store
+#### Method 2: Microsoft Store
 
-```bash
-# Откройте Microsoft Store
-# Найдите "Python 3.10" или новее
-# Нажмите "Установить"
-```
+1. Open Microsoft Store
+2. Search for "Python 3.11" (or latest version)
+3. Click "Install"
 
 ### Linux (Ubuntu/Debian):
 
 ```bash
-# Обновите пакеты
+# Update package list
 sudo apt update
 
-# Установите Python 3 и pip
+# Install Python and pip
 sudo apt install python3 python3-pip python3-venv
 
-# Проверьте установку
+# Verify installation
 python3 --version
 pip3 --version
 ```
 
 ### macOS:
 
-#### Вариант 1: Homebrew (Рекомендуется)
+#### Method 1: Official Installer
+
+1. Go to [https://www.python.org/downloads/](https://www.python.org/downloads/)
+2. Download macOS installer
+3. Run the installer
+
+#### Method 2: Homebrew
 
 ```bash
-# Установите Homebrew (если еще нет)
+# Install Homebrew (if not installed)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Установите Python
+# Install Python
 brew install python
 
-# Проверьте установку
+# Verify installation
 python3 --version
+pip3 --version
 ```
-
-#### Вариант 2: Официальный установщик
-
-1. Скачайте с [python.org/downloads](https://www.python.org/downloads/)
-2. Откройте .pkg файл и следуйте инструкциям
 
 ---
 
-## 🚀 Установка проекта
+## 📁 Project Installation
 
-### Шаг 1: Получите исходный код
+### 1. Download Project
 
-#### Вариант A: С помощью Git (Рекомендуется)
+#### Option A: Clone from GitHub (Recommended)
 
 ```bash
-# Клонируйте репозиторий
+# Clone repository
 git clone https://github.com/palagina00/ms-access-data-processor.git
-
-# Перейдите в папку проекта
 cd ms-access-data-processor
 ```
 
-#### Вариант B: Скачать ZIP
+#### Option B: Download ZIP
 
-1. Перейдите на [GitHub репозиторий](https://github.com/palagina00/ms-access-data-processor)
-2. Нажмите "Code" → "Download ZIP"
-3. Распакуйте архив
-4. Откройте командную строку в папке проекта
+1. Go to [https://github.com/palagina00/ms-access-data-processor](https://github.com/palagina00/ms-access-data-processor)
+2. Click "Code" → "Download ZIP"
+3. Extract ZIP file
+4. Navigate to extracted folder
 
-### Шаг 2: Создайте виртуальное окружение
+### 2. Create Virtual Environment
 
 #### Windows:
 
-```bash
-# Создайте виртуальное окружение
+```cmd
+# Create virtual environment
 python -m venv venv
 
-# Активируйте окружение
+# Activate virtual environment
 venv\Scripts\activate
 
-# Вы увидите (venv) в начале строки
+# Verify activation (you should see (venv) in prompt)
 ```
 
 #### Linux/macOS:
 
 ```bash
-# Создайте виртуальное окружение
+# Create virtual environment
 python3 -m venv venv
 
-# Активируйте окружение
+# Activate virtual environment
 source venv/bin/activate
 
-# Вы увидите (venv) в начале строки
+# Verify activation (you should see (venv) in prompt)
 ```
 
-### Шаг 3: Установите зависимости
+### 3. Install Dependencies
 
 ```bash
-# Обновите pip (опционально)
+# Upgrade pip
 pip install --upgrade pip
 
-# Установите зависимости проекта
+# Install project dependencies
 pip install -r requirements.txt
 ```
 
-**Должны установиться:**
-- `pyodbc>=4.0.30` - для работы с MS Access
-- `pandas>=1.1.5` - для обработки данных (опционально)
+### 4. Verify Installation
+
+```bash
+# Check if all packages installed correctly
+pip list
+
+# Test basic functionality
+python -c "import pandas; print('Pandas version:', pandas.__version__)"
+```
 
 ---
 
-## 🗄️ Установка MS Access Driver
+## 🗄️ MS Access Driver Installation
+
+**Note**: This step is optional if you're only working with CSV files.
 
 ### Windows:
 
-#### Для 64-bit систем:
+1. **Download Microsoft Access Database Engine**:
+   - Go to [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=54920)
+   - Download "Microsoft Access Database Engine 2016 Redistributable"
+   - Choose appropriate version (32-bit or 64-bit)
 
-1. **Скачайте драйвер**:
-   - [Microsoft Access Database Engine 2016 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=54920)
-   - Выберите `AccessDatabaseEngine_X64.exe`
-
-2. **Установите**:
-   ```bash
-   # Запустите установщик
-   AccessDatabaseEngine_X64.exe
-   ```
-
-3. **Проверьте установку**:
-   ```python
-   import pyodbc
-   print(pyodbc.drivers())
-   # Должен быть 'Microsoft Access Driver (*.mdb, *.accdb)'
-   ```
-
-#### Для 32-bit систем:
-
-- Скачайте `AccessDatabaseEngine.exe` (32-bit версию)
+2. **Install Driver**:
+   - Run downloaded installer
+   - Follow installation wizard
+   - Restart computer if prompted
 
 ### Linux:
 
 ```bash
-# Установите ODBC драйвер
-sudo apt-get install unixodbc unixodbc-dev
+# Install unixodbc and Microsoft ODBC drivers
+sudo apt update
+sudo apt install unixodbc unixodbc-dev
 
-# Для работы с .mdb используйте mdbtools
-sudo apt-get install mdbtools
+# Install Microsoft ODBC Driver for SQL Server
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+sudo apt update
+sudo apt install msodbcsql17
 ```
 
 ### macOS:
 
 ```bash
-# Установите через Homebrew
-brew install unixodbc
+# Install using Homebrew
+brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
+brew update
+brew install msodbcsql17 mssql-tools
 ```
-
-⚠️ **Примечание**: На Linux/macOS полноценная работа с .mdb ограничена. Рекомендуется конвертировать .mdb в CSV на Windows.
 
 ---
 
-## ✅ Проверка установки
+## ✅ Installation Verification
 
-### Проверьте Python и зависимости:
+### 1. Test Python Environment
 
 ```bash
-# Проверьте Python
+# Check Python version (should be 3.6.8+)
 python --version
 
-# Проверьте pip
-pip --version
-
-# Проверьте установленные пакеты
-pip list
+# Check installed packages
+pip list | grep -E "(pandas|openpyxl)"
 ```
 
-### Сгенерируйте тестовые данные:
+### 2. Test Project Files
 
 ```bash
+# Check if main script exists
+ls src/access_processor.py
+
+# Check if test data generator exists
+ls tests/generate_test_data.py
+```
+
+### 3. Run Test
+
+```bash
+# Generate test data
 python tests/generate_test_data.py
-```
 
-**Ожидаемый результат:**
-```
-================================================================
-🔧 ГЕНЕРАТОР ТЕСТОВЫХ ДАННЫХ
-================================================================
-
-📁 Создаю тестовые входные файлы...
-  ✅ Создан: 18%Ese21.csv (20 записей)
-  ✅ Создан: 19%Ese22.csv (20 записей)
-  ...
-
-================================================================
-✅ ТЕСТОВЫЕ ДАННЫЕ СОЗДАНЫ УСПЕШНО!
-================================================================
-```
-
-### Запустите обработку:
-
-```bash
+# Run main processor
 python src/access_processor.py
-```
 
-**Ожидаемый результат:**
-```
-================================================================
-🚀 НАЧАЛО ОБРАБОТКИ
-================================================================
-
-📖 Загружаю таблицу соответствий: data\correspondence.csv
-✅ Загружено 100 соответствий ID → ID2
-...
-
-================================================================
-✅ ОБРАБОТКА ЗАВЕРШЕНА УСПЕШНО!
-================================================================
-```
-
-### Проверьте результат:
-
-```bash
-# Windows
-type data\output\result.csv
-
-# Linux/macOS
+# Check output
+ls data/output/
 cat data/output/result.csv
 ```
 
+### 4. Expected Output
+
+You should see:
+- Test data files in `data/input/`
+- Processed results in `data/output/result.csv`
+- Log file `processor.log` with processing details
+
 ---
 
-## 🐛 Решение проблем
+## 🔧 Troubleshooting
 
-### Проблема: "python не является внутренней командой"
+### Common Issues:
 
-**Решение (Windows):**
-1. Добавьте Python в PATH:
-   - `Панель управления` → `Система` → `Дополнительные параметры системы`
-   - `Переменные среды` → `Path` → `Изменить`
-   - Добавьте: `C:\Users\YOUR_USER\AppData\Local\Programs\Python\Python3X`
+#### Issue 1: "python is not recognized"
 
-2. Или используйте:
-   ```bash
-   py --version
-   ```
+**Solution**:
+- Make sure Python is added to PATH
+- Try using `python3` instead of `python`
+- Restart command prompt/terminal
 
-### Проблема: "pip install" не работает
+#### Issue 2: "pip is not recognized"
 
-**Решение:**
+**Solution**:
 ```bash
-# Windows
+# Try pip3 instead
+pip3 install -r requirements.txt
+
+# Or use python -m pip
 python -m pip install -r requirements.txt
-
-# Linux/macOS
-python3 -m pip install -r requirements.txt
 ```
 
-### Проблема: "No module named 'pyodbc'"
+#### Issue 3: "Permission denied" (Linux/macOS)
 
-**Решение:**
+**Solution**:
 ```bash
-# Убедитесь, что виртуальное окружение активно
-# Должно быть (venv) в начале строки
+# Use --user flag
+pip install --user -r requirements.txt
 
-# Установите pyodbc отдельно
-pip install pyodbc
-
-# Если ошибка компиляции на Linux:
-sudo apt-get install python3-dev
-pip install pyodbc
+# Or use sudo (not recommended)
+sudo pip install -r requirements.txt
 ```
 
-### Проблема: "MS Access Driver not found"
+#### Issue 4: "No module named 'pandas'"
 
-**Решение:**
-1. Проверьте установленные драйверы:
-   ```python
-   import pyodbc
-   print(pyodbc.drivers())
-   ```
-
-2. Установите драйвер (см. раздел "Установка MS Access Driver")
-
-3. Используйте CSV файлы вместо .mdb (для тестирования)
-
-### Проблема: Ошибка при запуске на Linux
-
-**Решение:**
+**Solution**:
 ```bash
-# Дайте права на выполнение
-chmod +x src/access_processor.py
+# Make sure virtual environment is activated
+# Check if you see (venv) in your prompt
 
-# Запустите с python3
-python3 src/access_processor.py
+# Reinstall packages
+pip install -r requirements.txt
 ```
 
----
+#### Issue 5: MS Access Driver Issues
 
-## 📞 Поддержка
+**Solution**:
+- Make sure you have correct driver version (32-bit vs 64-bit)
+- Check if driver is properly installed
+- For CSV-only usage, driver is not required
 
-Если у вас возникли проблемы:
+### Getting Help:
 
-1. Проверьте [Issues на GitHub](../../issues)
-2. Создайте новый Issue с описанием проблемы
-3. Напишите на palagina00@gmail.com
-
----
-
-## ✅ Чек-лист установки
-
-- [ ] Python 3.6.8+ установлен
-- [ ] Виртуальное окружение создано
-- [ ] Зависимости установлены (requirements.txt)
-- [ ] MS Access Driver установлен (опционально)
-- [ ] Тестовые данные сгенерированы
-- [ ] Скрипт успешно запущен
-- [ ] Результат создан в data/output/
+1. **Check Log Files**: Look at `processor.log` for detailed error messages
+2. **Verify File Paths**: Make sure all file paths are correct
+3. **Check Permissions**: Ensure you have read/write access to data directories
+4. **Python Version**: Ensure you're using Python 3.6.8 or higher
 
 ---
 
-<div align="center">
+## 📞 Support
 
-**Готово! Проект установлен и готов к использованию! 🎉**
+If you encounter issues not covered in this guide:
 
-[⬅️ Назад к README](../README.md)
+* 📧 **Email**: palagina00@gmail.com
+* 🐛 **Report Bug**: [GitHub Issues](https://github.com/palagina00/ms-access-data-processor/issues)
+* 📖 **Documentation**: [USAGE.md](USAGE.md)
 
-</div>
+---
 
+**Installation completed successfully!** 🎉
+
+Next step: [USAGE.md](USAGE.md) - Learn how to use the project
