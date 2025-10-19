@@ -1,0 +1,7 @@
+# MS Access Data Processor Requirements
+# Compatible with Python 3.6.8+
+
+pyodbc>=4.0.30
+pandas>=1.1.5
+openpyxl>=3.0.0
+
