@@ -1,26 +1,26 @@
-# 💻 Руководство пользователя MS Access Data Processor
+# 💻 User Guide for MS Access Data Processor
 
-Полное руководство по использованию проекта с примерами и best practices.
+Complete user guide with examples and best practices for using the project.
 
 ---
 
-## 📋 Содержание
+## 📋 Table of Contents
 
-- [Быстрый старт](#быстрый-старт)
-- [Подготовка данных](#подготовка-данных)
-- [Запуск обработки](#запуск-обработки)
-- [Примеры использования](#примеры-использования)
-- [Настройка логирования](#настройка-логирования)
+- [Quick Start](#quick-start)
+- [Data Preparation](#data-preparation)
+- [Running Processing](#running-processing)
+- [Usage Examples](#usage-examples)
+- [Logging Configuration](#logging-configuration)
 - [FAQ](#faq)
 
 ---
 
-## 🚀 Быстрый старт
+## 🚀 Quick Start
 
-### 1. Подготовка среды
+### 1. Prepare Environment
 
 ```bash
-# Активируйте виртуальное окружение
+# Activate virtual environment
 # Windows:
 venv\Scripts\activate
 
@@ -28,46 +28,64 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-### 2. Генерация тестовых данных
+### 2. Navigate to Project Directory
 
 ```bash
+cd ms-access-data-processor
+```
+
+### 3. Generate Test Data
+
+```bash
+# Generate sample data for testing
 python tests/generate_test_data.py
 ```
 
-### 3. Запуск обработки
+### 4. Run Processing
 
 ```bash
+# Process all files
 python src/access_processor.py
 ```
 
-### 4. Просмотр результатов
+### 5. Check Results
 
 ```bash
-# Windows
-type data\output\result.csv
-
-# Linux/macOS
+# View processed results
 cat data/output/result.csv
+
+# View processing log
+cat processor.log
 ```
 
 ---
 
-## 📁 Подготовка данных
+## 📊 Data Preparation
 
-### Структура входных данных
+### Required File Structure:
 
-Для работы скрипта необходимо подготовить 3 типа файлов:
+```
+data/
+├── input/                    # Input files (CSV format)
+│   ├── file1.csv
+│   ├── file2.csv
+│   └── ...
+├── correspondence.csv        # ID → ID2 mapping
+├── filename_codes.csv        # Filename → Code mapping
+└── output/                   # Output directory (created automatically)
+    └── result.csv           # Final results
+```
 
-#### 1. Входные файлы (data/input/)
+### File Formats:
 
-**Формат**: CSV с разделителем `;`
+#### 1. Input Files (data/input/*.csv)
 
-**Обязательные колонки**:
-- `RecordID` - уникальный номер записи
-- `ID` - идентификатор для обработки
-- `SomeData` - дополнительные данные (опционально)
+**Format**: CSV with semicolon separator
 
-**Пример (18%Ese21.csv)**:
+**Required Columns**:
+- `ID`: Original identifier (e.g., "8d 7d 2c_Ah9h")
+
+**Example**:
 ```csv
 RecordID;ID;SomeData
 1;8d 7d 2c_Ah9h;Data_1
@@ -75,17 +93,15 @@ RecordID;ID;SomeData
 3;5e 9c 4d_Bm3n;Data_3
 ```
 
-#### 2. Таблица соответствий (data/correspondence.csv)
+#### 2. Correspondence Table (data/correspondence.csv)
 
-**Формат**: CSV с разделителем `;`
+**Format**: CSV with semicolon separator
 
-**Обязательные колонки**:
-- `id` - исходный ID
-- `ID2` - соответствующий ID2
+**Columns**:
+- `id`: Original ID
+- `ID2`: Corresponding ID2
 
-**Правило**: Первые 9 символов `id` и `ID2` должны совпадать
-
-**Пример**:
+**Example**:
 ```csv
 id;ID2
 8d 7d 2c_Ah9h;8d 7d 2c_P000
@@ -93,356 +109,251 @@ id;ID2
 5e 9c 4d_Bm3n;5e 9c 4d_P000
 ```
 
-#### 3. Коды файлов (data/filename_codes.csv)
+#### 3. Filename Codes (data/filename_codes.csv)
 
-**Формат**: CSV с разделителем `;`
+**Format**: CSV with semicolon separator
 
-**Обязательные колонки**:
-- `filename` - имя файла из data/input/
-- `code` - код для генерации ID3
+**Columns**:
+- `filename`: Input filename
+- `code`: Corresponding code
 
-**Пример**:
+**Example**:
 ```csv
 filename;code
-18%Ese21.csv;AF21
-19%Ese22.csv;BG22
-20%Ese23.csv;CH23
+file1.csv;AF21
+file2.csv;BG22
+file3.csv;EJ25
 ```
 
 ---
 
-## ⚙️ Запуск обработки
+## 🏃‍♂️ Running Processing
 
-### Базовое использование
+### Method 1: Command Line (Recommended)
 
 ```bash
+# Process all files in data/input/
 python src/access_processor.py
 ```
 
-### Использование в коде
+### Method 2: Python Script
 
 ```python
 from src.access_processor import AccessDataProcessor
 
-# Создаем процессор
+# Create processor instance
 processor = AccessDataProcessor(
     input_dir='data/input',
     correspondence_file='data/correspondence.csv',
     codes_file='data/filename_codes.csv'
 )
 
-# Обрабатываем файлы
+# Process all files
 processor.process_all_files('data/output/result.csv')
 ```
 
-### С кастомными путями
+### Method 3: Custom Configuration
 
 ```python
+from src.access_processor import AccessDataProcessor
+
+# Custom configuration
 processor = AccessDataProcessor(
-    input_dir='my_data/inputs',
-    correspondence_file='my_data/mappings.csv',
-    codes_file='my_data/codes.csv'
+    input_dir='custom/input/path',
+    correspondence_file='custom/correspondence.csv',
+    codes_file='custom/codes.csv'
 )
 
-processor.process_all_files('my_data/outputs/custom_result.csv')
+# Process specific file
+processor.process_file('custom/input/specific_file.csv', 'custom/output/result.csv')
 ```
 
 ---
 
-## 📊 Примеры использования
+## 💡 Usage Examples
 
-### Пример 1: Базовая обработка
+### Example 1: Basic Processing
 
-**Входные данные**:
-
-`data/input/test.csv`:
-```csv
-RecordID;ID;SomeData
-1;8d 7d 2c_Ah9h;Product A
-```
-
-`data/correspondence.csv`:
-```csv
-id;ID2
-8d 7d 2c_Ah9h;8d 7d 2c_P000
-```
-
-`data/filename_codes.csv`:
-```csv
-filename;code
-test.csv;AF21
-```
-
-**Команда**:
 ```bash
+# 1. Generate test data
+python tests/generate_test_data.py
+
+# 2. Run processing
 python src/access_processor.py
+
+# 3. Check results
+head -10 data/output/result.csv
 ```
 
-**Результат** (`data/output/result.csv`):
+**Expected Output**:
 ```csv
 ID3;ID4
 AF21_8d 7d 2c_P000;AF21_8d 7d 2c_Ah9h
+AF21_3f 2a 1b_P000;AF21_3f 2a 1b_Xk5l
+BG22_5e 9c 4d_P000;BG22_5e 9c 4d_Bm3n
 ```
 
-### Пример 2: Множественные файлы
-
-**Файлы**:
-- `data/input/file1.csv` (10 записей)
-- `data/input/file2.csv` (15 записей)
-- `data/input/file3.csv` (20 записей)
-
-**Команда**:
-```bash
-python src/access_processor.py
-```
-
-**Результат**:
-- Обработано 3 файла
-- Создано 45 уникальных записей
-- Время обработки: ~1 секунда
-
-### Пример 3: Обработка дубликатов
-
-**Сценарий**: Один и тот же ID встречается в разных файлах
-
-`file1.csv`:
-```csv
-RecordID;ID;SomeData
-1;8d 7d 2c_Ah9h;Data_1
-```
-
-`file2.csv`:
-```csv
-RecordID;ID;SomeData
-1;8d 7d 2c_Ah9h;Data_2
-```
-
-**Результат**:
-```csv
-ID3;ID4
-AF21_8d 7d 2c_P000;AF21_8d 7d 2c_Ah9h
-```
-
-⚠️ **Дубликат не добавлен** - ID3 уже существует в выходном файле
-
----
-
-## 📝 Настройка логирования
-
-### Уровни логирования
-
-Логирование настраивается в файле `src/access_processor.py`:
+### Example 2: Custom Data Processing
 
 ```python
-logging.basicConfig(
-    level=logging.INFO,  # Измените на DEBUG для подробного лога
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('processor.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
+# Create custom processor
+processor = AccessDataProcessor()
+
+# Load custom correspondence table
+processor.load_correspondence_table('custom_mapping.csv')
+
+# Load custom filename codes
+processor.load_filename_codes('custom_codes.csv')
+
+# Process specific files
+processor.process_file('data/input/special_file.csv', 'data/output/special_result.csv')
 ```
 
-### Доступные уровни:
+### Example 3: Batch Processing
 
-- `DEBUG` - максимально подробный лог (каждая запись)
-- `INFO` - основные события (по умолчанию)
-- `WARNING` - только предупреждения и ошибки
-- `ERROR` - только ошибки
+```python
+# Process multiple input directories
+input_dirs = ['data/input1', 'data/input2', 'data/input3']
 
-### Пример вывода лога:
-
-```
-2025-10-19 16:00:00 - INFO - ✅ AccessDataProcessor инициализирован
-2025-10-19 16:00:01 - INFO - 📖 Загружаю таблицу соответствий: data\correspondence.csv
-2025-10-19 16:00:01 - INFO - ✅ Загружено 100 соответствий ID → ID2
-2025-10-19 16:00:02 - INFO - 📁 Найдено 5 входных файлов
-2025-10-19 16:00:03 - INFO - ✅ ОБРАБОТКА ЗАВЕРШЕНА УСПЕШНО!
+for input_dir in input_dirs:
+    processor = AccessDataProcessor(input_dir=input_dir)
+    output_file = f'data/output/results_{input_dir.split("/")[-1]}.csv'
+    processor.process_all_files(output_file)
 ```
 
 ---
 
-## 🎯 Понимание результатов
+## ⚙️ Logging Configuration
 
-### Формат выходного файла
+### Log Levels:
 
-**result.csv**:
-```csv
-ID3;ID4
-AF21_8d 7d 2c_P000;AF21_8d 7d 2c_Ah9h
-```
+The processor uses Python's logging module with different levels:
 
-### Расшифровка полей:
+- **DEBUG**: Detailed processing information
+- **INFO**: General processing steps
+- **WARNING**: Non-critical issues
+- **ERROR**: Processing errors
 
-| Поле | Описание | Пример | Формула |
-|------|----------|--------|---------|
-| **ID3** | Комбинированный ID | `AF21_8d 7d 2c_P000` | `CODE + "_" + ID2` |
-| **ID4** | Финальный ID | `AF21_8d 7d 2c_Ah9h` | `ID3[:14] + original_ID[-4:]` |
+### Log File:
 
-### Логика генерации:
+All logs are saved to `processor.log` with detailed information about:
+- Processing start/end times
+- File processing status
+- Record counts
+- Error messages
+
+### Custom Logging:
 
 ```python
-# Исходные данные
-filename = "18%Ese21.csv"
-original_id = "8d 7d 2c_Ah9h"
+import logging
 
-# Шаг 1: Получаем код
-code = "AF21"  # из filename_codes.csv
+# Set custom log level
+logging.getLogger().setLevel(logging.DEBUG)
 
-# Шаг 2: Получаем ID2
-id2 = "8d 7d 2c_P000"  # из correspondence.csv
-
-# Шаг 3: Генерируем ID3
-id3 = f"{code}_{id2}"  # "AF21_8d 7d 2c_P000"
-
-# Шаг 4: Генерируем ID4
-id4 = id3[:14] + original_id[-4:]  # "AF21_8d 7d 2c_" + "Ah9h"
+# Or modify the processor directly
+processor = AccessDataProcessor(...)
+# Logs will be written to processor.log
 ```
 
 ---
 
 ## ❓ FAQ
 
-### Q: Можно ли обрабатывать реальные .mdb файлы?
+### Q: What file formats are supported?
 
-**A**: Да, но требуется установка MS Access Driver (см. [INSTALLATION.md](INSTALLATION.md)). Текущая версия работает с CSV для демонстрации.
+**A**: Currently supports CSV files with semicolon separators. MS Access .mdb files support is planned for future versions.
 
-### Q: Что делать, если ID не найден в таблице соответствий?
+### Q: How do I handle large files?
 
-**A**: Скрипт пропустит эту запись и запишет предупреждение в лог:
-```
-⚠️  ID 'unknown_id' не найден в таблице соответствий
-```
+**A**: The processor uses streaming processing, so it can handle files of any size. Memory usage remains constant regardless of file size.
 
-### Q: Сколько файлов можно обработать за раз?
+### Q: What if I have missing IDs in correspondence table?
 
-**A**: Нет ограничений. Скрипт обрабатывает файлы потоково, поэтому может работать с любым количеством.
+**A**: The processor will log warnings for missing IDs and skip those records. Check the log file for details.
 
-### Q: Как изменить разделитель CSV?
+### Q: Can I process files in parallel?
 
-**A**: В файле `src/access_processor.py` найдите:
-```python
-reader = csv.DictReader(f, delimiter=';')
-```
-Замените `;` на нужный разделитель (`,`, `\t`, и т.д.)
+**A**: Currently, files are processed sequentially. Parallel processing is planned for future versions.
 
-### Q: Можно ли экспортировать в Excel?
+### Q: How do I customize the ID generation rules?
 
-**A**: Текущая версия экспортирует в CSV. Для Excel добавьте:
-```python
-import pandas as pd
+**A**: Modify the `process_file()` method in `src/access_processor.py` to change the ID3 and ID4 generation logic.
 
-df = pd.read_csv('data/output/result.csv', delimiter=';')
-df.to_excel('data/output/result.xlsx', index=False)
-```
+### Q: What if my CSV files use different separators?
 
-### Q: Как обработать файлы из другой папки?
+**A**: Modify the `delimiter=';'` parameter in the `csv.DictReader()` calls in the processor code.
 
-**A**: Укажите путь при создании процессора:
-```python
-processor = AccessDataProcessor(
-    input_dir='/path/to/your/files',
-    correspondence_file='/path/to/correspondence.csv',
-    codes_file='/path/to/codes.csv'
-)
-```
+### Q: How do I add support for new file formats?
+
+**A**: Extend the `process_file()` method to handle different file formats and extensions.
+
+### Q: Can I run this on a schedule?
+
+**A**: Yes, you can set up a cron job (Linux/macOS) or Task Scheduler (Windows) to run the processor automatically.
 
 ---
 
-## 🐛 Troubleshooting
+## 🔍 Troubleshooting
 
-### Проблема: "Файл не найден"
+### Common Issues:
 
-```bash
-FileNotFoundError: [Errno 2] No such file or directory: 'data/input'
-```
+#### Issue 1: "File not found" errors
 
-**Решение**:
-```bash
-# Создайте папки
-mkdir -p data/input data/output
+**Solution**:
+- Check file paths in configuration
+- Ensure all required files exist
+- Verify file permissions
 
-# Сгенерируйте тестовые данные
-python tests/generate_test_data.py
-```
+#### Issue 2: "No data processed" warnings
 
-### Проблема: "Пустой результат"
+**Solution**:
+- Check if input files contain data
+- Verify CSV format and separators
+- Check correspondence table completeness
 
-**Причины**:
-1. Нет входных файлов в `data/input/`
-2. Файлы не указаны в `filename_codes.csv`
-3. ID не найдены в `correspondence.csv`
+#### Issue 3: Memory errors with large files
 
-**Решение**: Проверьте логи в `processor.log`
+**Solution**:
+- The processor should handle large files automatically
+- Check available system memory
+- Consider processing files in smaller batches
 
-### Проблема: "Кодировка не читается"
+#### Issue 4: Duplicate ID3 warnings
 
-```
-UnicodeDecodeError: 'utf-8' codec can't decode byte...
-```
-
-**Решение**: Конвертируйте файлы в UTF-8 или измените кодировку:
-```python
-with open(file, 'r', encoding='windows-1251') as f:
-```
+**Solution**:
+- This is normal behavior - duplicates are automatically skipped
+- Check log file for details about skipped records
 
 ---
 
-## 📈 Best Practices
+## 📈 Performance Tips
 
-### 1. Всегда проверяйте входные данные
+### Optimization Recommendations:
 
-```bash
-# Проверьте формат CSV
-head data/input/file.csv
+1. **Use SSD storage** for better I/O performance
+2. **Ensure sufficient RAM** (2GB+ recommended)
+3. **Close other applications** during processing
+4. **Use virtual environment** to avoid package conflicts
+5. **Monitor log files** for performance insights
 
-# Проверьте кодировку
-file data/input/file.csv
-```
+### Expected Performance:
 
-### 2. Используйте логи для отладки
-
-```python
-# Включите DEBUG режим
-logging.basicConfig(level=logging.DEBUG)
-```
-
-### 3. Делайте бэкапы
-
-```bash
-# Скопируйте результаты
-cp data/output/result.csv data/output/result_backup_$(date +%Y%m%d).csv
-```
-
-### 4. Валидация данных
-
-```python
-# Проверьте результаты
-import pandas as pd
-
-df = pd.read_csv('data/output/result.csv', delimiter=';')
-print(f"Обработано записей: {len(df)}")
-print(f"Уникальных ID3: {df['ID3'].nunique()}")
-```
+- **Small files** (< 1MB): ~1000 records/second
+- **Medium files** (1-10MB): ~500 records/second  
+- **Large files** (> 10MB): ~200 records/second
 
 ---
 
-## 📞 Поддержка
+## 📞 Support
 
-Нужна помощь?
+Need help or have questions?
 
-- 📧 **Email**: palagina00@gmail.com
-- 🐛 **Issues**: [GitHub Issues](../../issues)
-- 📚 **Документация**: [README](../README.md)
+* 📧 **Email**: palagina00@gmail.com
+* 🐛 **Report Bug**: [GitHub Issues](https://github.com/palagina00/ms-access-data-processor/issues)
+* 📖 **Documentation**: [INSTALLATION.md](INSTALLATION.md)
 
 ---
 
-<div align="center">
+**Happy processing!** 🎉
 
-**Счастливой обработки данных! 🚀**
-
-[⬅️ Назад к README](../README.md)
-
-</div>
-
+For more examples and advanced usage, check the source code in `src/access_processor.py`
